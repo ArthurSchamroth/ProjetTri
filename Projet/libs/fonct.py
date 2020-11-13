@@ -74,6 +74,3 @@ def demander_type():
         return result
     except:
         return "Type d'extension inconnue (ex : 'pdf', pas '.pdf')"
-
-
-print(deplacer_fichiers())
