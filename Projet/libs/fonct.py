@@ -6,6 +6,8 @@ liste_fichiers = []
 liste_fichiers_finale = []
 dict = {}
 dossiers = []
+ext = []
+fichiers_ext = ""
 
 
 def recuperer_fichiers():
@@ -50,27 +52,42 @@ def deplacer_fichiers():
     grouper_fichiers()
     for cle, value in dict.items():
         for i in value:
+            # if element is a directory ==> nothing
             if (str(i) + "." + str(cle)) in os.listdir("D:\\Téléchargements\\" + cle):
                 pass
+            # if element is a file ==> move in the correct directory
             else:
                 shutil.move("D:\\Téléchargements\\" + i + "." + cle,
                             "D:\\Téléchargements\\" + cle + "\\" + i + "." + cle)
+
     for i in os.listdir("D:\\Téléchargements"):
         if not os.path.isdir("D:\\Téléchargements\\" + i):
+            # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
             chiffre = str(randint(0, 1_000_000))
             os.renames("D:\\Téléchargements\\" + element[0] + "." + element[1][1:],
                        "D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")" + "." + element[1][1:])
             shutil.move("D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")." + element[1][1:],
                         "D:\\Téléchargements\\" + element[1][1:])
-            print(element)
 
 
-def demander_type():
+def demander_type(demand):
     grouper_fichiers()
     try:
-        demand = input("Veuillez entrer l'extension des fichiers que vous désirez : ")
         result = os.listdir("D:\\Téléchargements\\" + demand)
         return result
     except:
-        return "Type d'extension inconnue (ex : 'pdf', pas '.pdf')"
+        return "Type d'extension inconnue"
+
+
+def recuperer_type():
+    for i in recuperer_fichiers().keys():
+        ext.append(i)
+    return ext
+
+
+def fichier_en_forme(demand):
+    fichiers_ext = ""
+    for i in demander_type(demand):
+        fichiers_ext += i + "\n"
+    return fichiers_ext
