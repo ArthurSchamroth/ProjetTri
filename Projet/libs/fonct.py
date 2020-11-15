@@ -35,6 +35,7 @@ def recuperer_fichiers():
 def grouper_fichiers():
     recuperer_fichiers()
     try:
+        print(dict.keys())
         for i in dict.keys():
             if i == "":
                 os.mkdir("D:\\Téléchargements\\Autres")
@@ -42,7 +43,7 @@ def grouper_fichiers():
             elif i == ".EXE":
                 pass
             elif i != "":
-                os.mkdir("D:\\Téléchargements\\" + i[1:])
+                os.mkdir("D:\\Téléchargements\\" + i)
     except:
         pass
 
@@ -51,14 +52,17 @@ def deplacer_fichiers():
     recuperer_fichiers()
     grouper_fichiers()
     for cle, value in dict.items():
-        for i in value:
-            # if element is a directory ==> nothing
-            if (str(i) + "." + str(cle)) in os.listdir("D:\\Téléchargements\\" + cle):
-                pass
-            # if element is a file ==> move in the correct directory
-            else:
-                shutil.move("D:\\Téléchargements\\" + i + "." + cle,
-                            "D:\\Téléchargements\\" + cle + "\\" + i + "." + cle)
+        if cle == "":
+            pass
+        else:
+            for i in value:
+                # if element is a directory ==> nothing
+                if (str(i) + "." + str(cle)) in os.listdir("D:\\Téléchargements\\" + cle):
+                    pass
+                # if element is a file ==> move in the correct directory
+                else:
+                    shutil.move("D:\\Téléchargements\\" + i + "." + cle,
+                                "D:\\Téléchargements\\" + cle + "\\" + i + "." + cle)
 
     for i in os.listdir("D:\\Téléchargements"):
         if not os.path.isdir("D:\\Téléchargements\\" + i):
@@ -70,10 +74,11 @@ def deplacer_fichiers():
             shutil.move("D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")." + element[1][1:],
                         "D:\\Téléchargements\\" + element[1][1:])
         else:
-            if i not in dict.keys():
+            if i == "z":
+                os.remove("D:\\Téléchargements\\z")
+            elif i not in dict.keys():
                 shutil.move("D:\\Téléchargements\\" + i,
                             "D:\\Téléchargements\\Autres")
-        
 
 
 def demander_type(demand):
@@ -96,3 +101,4 @@ def fichier_en_forme(demand):
     for i in demander_type(demand):
         fichiers_ext += i + "\n"
     return fichiers_ext
+
