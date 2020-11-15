@@ -69,6 +69,11 @@ def deplacer_fichiers():
                        "D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")" + "." + element[1][1:])
             shutil.move("D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")." + element[1][1:],
                         "D:\\Téléchargements\\" + element[1][1:])
+        else:
+            if i not in dict.keys():
+                shutil.move("D:\\Téléchargements\\" + i,
+                            "D:\\Téléchargements\\Autres")
+        
 
 
 def demander_type(demand):
