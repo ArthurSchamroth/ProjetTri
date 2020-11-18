@@ -1,65 +1,58 @@
-import sqlite3
+import mysql
+from mysql import connector
+from libs.fonct import *
 import datetime
 
-
+cnx = mysql.connector.connect(user="root", password="admin", host="127.0.0.1", database="infos")
+db_name = "infos"
+tables = {}
+mycursor = cnx.cursor()
+dict = recuperer_fichiers()
 
 
 def creer_Table_Infos():
-    baseDeDonnees = sqlite3.connect("infos")
-    curseur = baseDeDonnees.cursor()
-    curseur.execute("create TABLE Infos (date ,nom TEXT NOT NULL, type NOT NULL)")
-    baseDeDonnees.commit()
+    mycursor.execute("CREATE TABLE Infos (id int primary key not null auto_increment,"
+                     " Date date, Nom varchar(255), Type char(255))")
 
 
 def creer_Table_Comparaison():
-    baseDeDonnees = sqlite3.connect("infos.db")
-    curseur = baseDeDonnees.cursor()
-    curseur.execute("create TABLE Comparaison (date ,total INTEGER)")
-    baseDeDonnees.commit()
+    mycursor.execute("CREATE TABLE Comparaison (id int primary key not null auto_increment,"
+                     " Date date, Total Integer(100))")
 
 
 def remplir_table_infos():
-    baseDeDonnees = sqlite3.connect(r"C:\Users\scham\OneDrive - EPHEC asbl\BAC2\Q1\Développement Informatique II Pratique\Projet\libs\infos.db")
-    curseur = baseDeDonnees.cursor()
-    for cle, valeur in dict.items():
-        for i in valeur:
-            curseur.execute("INSERT INTO Infos VALUES(:date, :nom, :cle)",
-                            {
-                            "date": datetime.datetime.today().strftime('%Y-%m-%d'),
-                            "nom": i,
-                            "cle": cle
-            })
-    baseDeDonnees.commit()
+    print(dict.items())
+    sqlFormula = "INSERT INTO Infos (Date, Nom, Type) VALUES (%s, %s, %s)"
+    for cle, value in dict.items():
+        for i in value:
+            information = (datetime.datetime.today().strftime('%Y-%m-%d'), i, cle)
+            mycursor.execute(sqlFormula, information)
+    cnx.commit()
+
+
+def remplir_Table_Comparaison():
+    sqlFormula = "INSERT INTO Comparaison (Date, Total) VALUES(%s, %s)"
+    information = (datetime.datetime.today().strftime('%Y-%m-%d'), compter())
+    mycursor.execute(sqlFormula, information)
+    cnx.commit()
+
 
 def compter():
     total = 0
-    baseDeDonnees = sqlite3.connect(r"C:\Users\scham\OneDrive - EPHEC asbl\BAC2\Q1\Développement Informatique II Pratique\Projet\libs\infos.db")
-    curseur = baseDeDonnees.cursor()
-    curseur.execute("select distinct nom from Infos")
-    for i in curseur:
+    mycursor.execute("select distinct nom from Infos")
+    for i in mycursor.fetchall():
         total += 1
     return total
 
 
-def remplir_Table_Comparaison():
-    baseDeDonnees = sqlite3.connect(r"C:\Users\scham\OneDrive - EPHEC asbl\BAC2\Q1\Développement Informatique II Pratique\Projet\libs\infos.db")
-    curseur = baseDeDonnees.cursor()
-    curseur.execute("insert into Comparaison values(:date, :total)",
-                    {
-                        "date": datetime.datetime.today(),
-                        "total": compter()
-                    })
-    baseDeDonnees.commit()
+def comparaison(date):
+    # Voir si pas possible de mettre deux dates, une de début et une de fin de comparaison
+    mycursor.execute('SELECT Max(Total) FROM comparaison WHERE Date LIKE \'%' + date + '%\'')
+    return mycursor.fetchone()
 
 
-def comparaison():
-    baseDeDonnees = sqlite3.connect(r"C:\Users\scham\OneDrive - EPHEC asbl\BAC2\Q1\Développement Informatique II Pratique\Projet\libs\infos.db")
-    curseur = baseDeDonnees.cursor()
-    curseur.execute("select nom, type from Infos where date < ?", (datetime.datetime.today(),))
-    for i in curseur.fetchall():
-        print(i)
-    baseDeDonnees.commit()
-
-
-
-print(creer_Table_Infos())
+def result_comparaison(date):
+    mycursor.execute('SELECT Max(Total) FROM comparaison WHERE Date LIKE Date(Now())')
+    total_today = mycursor.fetchone()[0]
+    difference = total_today - comparaison(date)[0]
+    return "Depuis le {}, vous avez téléchargé {} nouveaux fichier(s)".format(date, difference)
