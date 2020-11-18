@@ -35,17 +35,20 @@ def recuperer_fichiers():
 def grouper_fichiers():
     recuperer_fichiers()
     try:
-        print(dict.keys())
         for i in dict.keys():
-            if i == "":
-                os.mkdir("D:\\Téléchargements\\Autres")
-            # Probleme avec deux .exe differents (.exe et .EXE)
-            elif i == ".EXE":
+            if os.path.isdir("D:\\Téléchargements\\" + i):
                 pass
-            elif i != "":
-                os.mkdir("D:\\Téléchargements\\" + i)
-    except:
-        pass
+            else:
+                if i == "":
+                    os.mkdir("D:\\Téléchargements\\Autres")
+                # Probleme avec deux .exe differents (.exe et .EXE)
+                elif i == ".EXE":
+                    pass
+                elif i != "":
+                    os.mkdir("D:\\Téléchargements\\" + i)
+    except Exception as e:
+        print(e)
+
 
 
 def deplacer_fichiers():
@@ -86,8 +89,8 @@ def demander_type(demand):
     try:
         result = os.listdir("D:\\Téléchargements\\" + demand)
         return result
-    except:
-        return "Type d'extension inconnue"
+    except Exception as e:
+        return e
 
 
 def recuperer_type():
@@ -101,4 +104,3 @@ def fichier_en_forme(demand):
     for i in demander_type(demand):
         fichiers_ext += i + "\n"
     return fichiers_ext
-
