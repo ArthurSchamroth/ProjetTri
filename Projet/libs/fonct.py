@@ -4,7 +4,7 @@ from random import *
 
 liste_fichiers = []
 liste_fichiers_finale = []
-dict = {}
+dicti = {}
 dossiers = []
 ext = []
 fichiers_ext = ""
@@ -17,25 +17,25 @@ def recuperer_fichiers():
             for j in os.listdir("D:\\Téléchargements\\" + i):
                 element = os.path.splitext(j)
                 # new type
-                if element[1][1:] not in dict.keys():
-                    dict[element[1][1:]] = [element[0]]
+                if element[1][1:] not in dicti.keys():
+                    dicti[element[1][1:]] = [element[0]]
                 # not new type
                 else:
-                    dict[element[1][1:]].append(element[0])
+                    dicti[element[1][1:]].append(element[0])
         # not repertory
         else:
             element = os.path.splitext(i)
-            if element[1][1:] not in dict.keys():
-                dict[element[1][1:]] = [element[0]]
+            if element[1][1:] not in dicti.keys():
+                dicti[element[1][1:]] = [element[0]]
             else:
-                dict[element[1][1:]].append(element[0])
-    return dict
+                dicti[element[1][1:]].append(element[0])
+    return dicti
 
 
 def grouper_fichiers():
     recuperer_fichiers()
     try:
-        for i in dict.keys():
+        for i in dicti.keys():
             if os.path.isdir("D:\\Téléchargements\\" + i):
                 pass
             else:
@@ -50,11 +50,10 @@ def grouper_fichiers():
         print(e)
 
 
-
 def deplacer_fichiers():
     recuperer_fichiers()
     grouper_fichiers()
-    for cle, value in dict.items():
+    for cle, value in dicti.items():
         if cle == "":
             pass
         else:
@@ -71,15 +70,15 @@ def deplacer_fichiers():
         if not os.path.isdir("D:\\Téléchargements\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
-            chiffre = str(randint(0, 1_000_000))
+            numb = str(randint(0, 1_000_000))
             os.renames("D:\\Téléchargements\\" + element[0] + "." + element[1][1:],
-                       "D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")" + "." + element[1][1:])
-            shutil.move("D:\\Téléchargements\\" + element[0] + "(" + chiffre + ")." + element[1][1:],
+                       "D:\\Téléchargements\\" + element[0] + "(" + numb + ")" + "." + element[1][1:])
+            shutil.move("D:\\Téléchargements\\" + element[0] + "(" + numb + ")." + element[1][1:],
                         "D:\\Téléchargements\\" + element[1][1:])
         else:
             if i == "z":
                 os.remove("D:\\Téléchargements\\z")
-            elif i not in dict.keys():
+            elif i not in dicti.keys():
                 shutil.move("D:\\Téléchargements\\" + i,
                             "D:\\Téléchargements\\Autres")
 
@@ -104,3 +103,50 @@ def fichier_en_forme(demand):
     for i in demander_type(demand):
         fichiers_ext += i + "\n"
     return fichiers_ext
+
+
+continu = "Oui"
+choix_console = input("Voulez_vous travailler exclusivement en console ? (Oui/Non) ")
+
+if choix_console == "Oui":
+
+    print("Sélectionner ce que vous voulez faire parmis ces propositions :")
+    print("1) 'Récupérer fichiers' afin de récupérer tous les fichiers présents dans votre dossier"
+          " de téléchargements")
+    print("2) 'Grouper fichiers' afin de créer tous les sous-dossiers de votre dossier de téléchargements")
+    print("3) 'Déplacer fichiers' afin de déplacer tous les fichiers de votre dossier de téléchargement dans son "
+          "sous-dossier")
+    print("4) 'Demander type' afin de récupérer tous les fichiers d'un certain type")
+    print("5) 'Récupérer type' afin de récupérer tous les types de fichiers")
+
+    while continu == "Oui":
+        choix = input("Que voulez faire ? ")
+
+        if choix == "Récuperer fichiers":
+            print(recuperer_fichiers())
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
+        elif choix == "Grouper fichiers":
+            grouper_fichiers()
+            print("Les sous-dossiers viennent de se créer dans votre dossier de téléchargements")
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
+        elif choix == "Déplacer fichiers":
+            deplacer_fichiers()
+            print("Tous vos fichiers viennent de se trier dans leur sous-dossier respectif")
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
+        elif choix == "Demander type":
+            type_ext = input("Quel type de fichier voulez-vous récupérer ? ")
+            print("Voici vos fichiers {}".format(type_ext))
+            print(demander_type(type_ext))
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
+        elif choix == "Récupérer type":
+            print(recuperer_type())
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
+else:
+    print("Alors vous pouvez ouvrir l'interface graphique.")
+
+# librairie shh1 et md5 (moins bien (sécurisée))
