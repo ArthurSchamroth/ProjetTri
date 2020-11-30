@@ -9,12 +9,15 @@ dossiers = []
 ext = []
 fichiers_ext = ""
 
+chemin_repertoire = input("Veuillez entrer le chemin absolu de votre dossier de téléchargements en doublant vos "
+                          "\\ (exemple: D:\\\\Téléchargements) ")
+
 
 def recuperer_fichiers():
-    for i in os.listdir("D:\\Téléchargements"):
+    for i in os.listdir(chemin_repertoire):
         # repertory
-        if os.path.isdir("D:\\Téléchargements\\" + i):
-            for j in os.listdir("D:\\Téléchargements\\" + i):
+        if os.path.isdir(chemin_repertoire + "\\" + i):
+            for j in os.listdir(chemin_repertoire + "\\" + i):
                 element = os.path.splitext(j)
                 # new type
                 if element[1][1:] not in dicti.keys():
@@ -36,16 +39,16 @@ def grouper_fichiers():
     recuperer_fichiers()
     try:
         for i in dicti.keys():
-            if os.path.isdir("D:\\Téléchargements\\" + i):
+            if os.path.isdir(chemin_repertoire + "\\" + i):
                 pass
             else:
                 if i == "":
-                    os.mkdir("D:\\Téléchargements\\Autres")
+                    os.mkdir(chemin_repertoire + "\\Autres")
                 # Probleme avec deux .exe differents (.exe et .EXE)
                 elif i == ".EXE":
                     pass
                 elif i != "":
-                    os.mkdir("D:\\Téléchargements\\" + i)
+                    os.mkdir(chemin_repertoire + "\\" + i)
     except Exception as e:
         print(e)
 
@@ -59,34 +62,34 @@ def deplacer_fichiers():
         else:
             for i in value:
                 # if element is a directory ==> nothing
-                if (str(i) + "." + str(cle)) in os.listdir("D:\\Téléchargements\\" + cle):
+                if (str(i) + "." + str(cle)) in os.listdir(chemin_repertoire + "\\" + cle):
                     pass
                 # if element is a file ==> move in the correct directory
                 else:
-                    shutil.move("D:\\Téléchargements\\" + i + "." + cle,
-                                "D:\\Téléchargements\\" + cle + "\\" + i + "." + cle)
+                    shutil.move(chemin_repertoire + "\\" + i + "." + cle,
+                                chemin_repertoire + "\\" + cle + "\\" + i + "." + cle)
 
-    for i in os.listdir("D:\\Téléchargements"):
-        if not os.path.isdir("D:\\Téléchargements\\" + i):
+    for i in os.listdir(chemin_repertoire):
+        if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
             numb = str(randint(0, 1_000_000))
-            os.renames("D:\\Téléchargements\\" + element[0] + "." + element[1][1:],
-                       "D:\\Téléchargements\\" + element[0] + "(" + numb + ")" + "." + element[1][1:])
-            shutil.move("D:\\Téléchargements\\" + element[0] + "(" + numb + ")." + element[1][1:],
-                        "D:\\Téléchargements\\" + element[1][1:])
+            os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
+                       chemin_repertoire + "\\" + element[0] + "(" + numb + ")" + "." + element[1][1:])
+            shutil.move(chemin_repertoire + "\\" + element[0] + "(" + numb + ")." + element[1][1:],
+                        chemin_repertoire + "\\" + element[1][1:])
         else:
             if i == "z":
-                os.remove("D:\\Téléchargements\\z")
+                os.remove(chemin_repertoire + "\\z")
             elif i not in dicti.keys():
-                shutil.move("D:\\Téléchargements\\" + i,
-                            "D:\\Téléchargements\\Autres")
+                shutil.move(chemin_repertoire + "\\" + i,
+                            chemin_repertoire + "\\Autres")
 
 
 def demander_type(demand):
     grouper_fichiers()
     try:
-        result = os.listdir("D:\\Téléchargements\\" + demand)
+        result = os.listdir(chemin_repertoire + "\\" + demand)
         return result
     except Exception as e:
         return e
@@ -122,7 +125,7 @@ if choix_console == "Oui" or choix_console == "oui":
     while continu == "Oui" or continu == "oui":
         choix = input("Que voulez faire ? ")
 
-        if choix == "Récuperer fichiers" or choix == "récuperer fichiers":
+        if choix == "Récupérer fichiers" or choix == "récupérer fichiers":
             print("Voici tous vos fichiers présents dans votre dossier de téléchargements et ses sous-dossiers : ")
             print(recuperer_fichiers())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
@@ -148,9 +151,10 @@ if choix_console == "Oui" or choix_console == "oui":
             print(recuperer_type())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
         else:
-            print("Veuillez entrer un choix disponible ")
+            print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre choix.")
 
 else:
     print("Alors vous pouvez ouvrir l'interface graphique.")
 
 # librairie shh1 et md5 (moins bien (sécurisée))
+
