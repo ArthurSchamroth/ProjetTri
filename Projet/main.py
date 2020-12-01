@@ -1,8 +1,9 @@
-from libs.fonct import *
-from libs.interf_graph import *
-from random import *
+from libs.fonct import fonct_console
 
+choix_console = input("Voulez_vous travailler exclusivement en console ? (Oui/Non) ")
 
-if __name__ == "__main__":
-    print(deplacer_fichiers())
-    print(demander_type())
+if choix_console == "Oui" or choix_console == "oui":
+    fonct_console()
+else:
+    print("coucou")
+    # Quand on tape 'Non' ca doit lancer l'interface graphique
