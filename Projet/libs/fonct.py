@@ -1,6 +1,7 @@
 import os
 import shutil
 from random import *
+from libs.extensions import *
 
 liste_fichiers = []
 liste_fichiers_finale = []
@@ -73,10 +74,10 @@ def deplacer_fichiers():
         if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
-            numb = str(randint(0, 1_000_000))
+            nombre = str(randint(0, 1_000_000))
             os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
-                       chemin_repertoire + "\\" + element[0] + "(" + numb + ")" + "." + element[1][1:])
-            shutil.move(chemin_repertoire + "\\" + element[0] + "(" + numb + ")." + element[1][1:],
+                       chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
+            shutil.move(chemin_repertoire + "\\" + element[0] + "(" + nombre + ")." + element[1][1:],
                         chemin_repertoire + "\\" + element[1][1:])
         else:
             if i == "z":
@@ -86,13 +87,13 @@ def deplacer_fichiers():
                             chemin_repertoire + "\\Autres")
 
 
-def demander_type(demand):
+def demander_type(demande):
     grouper_fichiers()
-    try:
-        result = os.listdir(chemin_repertoire + "\\" + demand)
-        return result
-    except Exception as e:
-        return e
+    if demande in dicti.keys():
+        resultat = os.listdir(chemin_repertoire + "\\" + demande)
+        return resultat
+    else:
+        return "Vous n'avez pas de sous dossier du type {}".format(demande)
 
 
 def recuperer_type():
@@ -101,18 +102,22 @@ def recuperer_type():
     return ext
 
 
-def fichier_en_forme(demand):
+def fichier_en_forme(demande):
     fichiers_ext = ""
-    for i in demander_type(demand):
+    for i in demander_type(demande):
         fichiers_ext += i + "\n"
     return fichiers_ext
 
 
-continu = "Oui"
-choix_console = input("Voulez_vous travailler exclusivement en console ? (Oui/Non) ")
+def ajouter_description(demande):
+    if demande.upper() in dictionnaire_extensions.keys():
+        return dictionnaire_extensions[demande.upper()]
+    else:
+        return "Désolé, nous ne connaissons pas ce type d'extension"
 
-if choix_console == "Oui" or choix_console == "oui":
 
+def fonct_console():
+    continu = "Oui"
     print("Sélectionner ce que vous voulez faire parmis ces propositions :")
     print("1) 'Récupérer fichiers' afin de récupérer tous les fichiers présents dans votre dossier"
           " de téléchargements")
@@ -151,10 +156,9 @@ if choix_console == "Oui" or choix_console == "oui":
             print(recuperer_type())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
         else:
-            print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre choix.")
+            print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre "
+                  "choix.")
 
-else:
-    print("Alors vous pouvez ouvrir l'interface graphique.")
-
-# librairie shh1 et md5 (moins bien (sécurisée))
+    else:
+        print("Veuillez lancer l'interface graphique")
 
