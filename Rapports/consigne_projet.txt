@@ -1,0 +1,22 @@
+Contraintes : 
+
+°) Ampleur similaire au projet-démo
+°) Possède une interface utilisateur en console et une interface utilisateur graphique
+
+
+
+Au plus vous intégrez d'éléments à votre projet (par ex. DB, accès réseau, ...) ,
+ au plus vous pourrez valider de compétences (notamment les compétences avancées).  
+
+
+
+Les étapes principales seront : 
+
+°) Rédaction du cahier des charges (+ backlog)
+°) Schémas d'architecture et UML
+°) Prototype / Minimum Viable Product (avec interface console)
+°) Ajout d'une interface utilisateur graphique
+°) Validation du code (tests unitaires)
+°) Déploiement du projet
+
+Tri des téléchargements

@@ -1,0 +1,5 @@
+DBA
+dba
+
+nom serveur : infos
+nom db : infos
