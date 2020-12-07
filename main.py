@@ -8,5 +8,4 @@ if choix_console == "Oui" or choix_console == "oui":
     fonct_console()
 else:
     commencer()
-    print("Bonjour")
     # Quand on tape 'Non' ca doit lancer l'interface graphique
