@@ -60,6 +60,12 @@ def deplacer_fichiers():
         if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
+            """hash_element = hashlib.md5(i.encode("utf-8")).hexdigest()
+            hash_elements_dossier = []
+            for j in os.listdir(chemin_repertoire + "\\" + element[1][1:]):
+                hash_elements_dossier.append(hashlib.md5(j.encode("utf-8")).hexdigest())
+                
+            if hash_element in hash_elements_dossier:"""
             nombre = str(randint(0, 1_000_000))
             os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
                        chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
@@ -153,8 +159,6 @@ def fonct_console():
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
-
-
 """a = "bonjour"
 b = "bonjour"
 
