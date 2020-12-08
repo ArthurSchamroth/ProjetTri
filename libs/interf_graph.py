@@ -16,20 +16,19 @@ def commencer():
     window.geometry("720x480")
     window.minsize(720, 480)
     window.config(background="#C6A5A5")
-    frame = Frame(window, bg="#C6A5A5")
     label_title = Label(window, text="Bienvenue sur notre \n Trouve Tout", font=("Arial", 40), bg="#C6A5A5", fg="white")
-    label_title.pack(expand=YES)
+    label_title.place(relx=0.5, rely=0.2, anchor=CENTER)
 
-    list_button = Button(frame, text="Lister Fichiers Spécifiques", bg="white", fg="#C6A5A5",
-                         command=apparaitre_fich_spec)
+    list_button = Button(window, text="Lister Fichiers Spécifiques", bg="white", fg="#C6A5A5",
+                         command=apparaitre_fich_spec, width=30, pady=5)
 
-    comparaison_button = Button(frame, text="Voir Evolution", bg="white", fg="#C6A5A5", command=apparaitre_compa)
-    ouvrir_appli_button = Button(frame, text="Ouvrir Appli", bg="white", fg="#C6A5A5", command=apparaitre_ouvrir)
+    comparaison_button = Button(window, text="Voir Evolution", bg="white", fg="#C6A5A5", command=apparaitre_compa, width=30, pady=5)
 
-    list_button.pack()
-    comparaison_button.pack()
-    ouvrir_appli_button.pack()
-    frame.pack(expand=YES)
+    ouvrir_appli_button = Button(window, text="Ouvrir Appli", bg="white", fg="#C6A5A5", command=apparaitre_ouvrir, width=30, pady=5)
+
+    list_button.place(relx=0.5, rely=0.5, anchor=CENTER)
+    comparaison_button.place(relx=0.5, rely=0.6, anchor=CENTER)
+    ouvrir_appli_button.place(relx=0.5, rely=0.7, anchor=CENTER)
     window.mainloop()
 
 
@@ -43,8 +42,8 @@ def apparaitre_fich_spec():
     titre = Label(top, text="Fenêtre de listing de \n fichiers specifiques", font=("Arial", 20), bg="#C6A5A5",
                   fg="white")
     liste = ttk.Combobox(top, values=recuperer_type())
-    liste.pack()
-    lab = Text(top, font=("Arial", 12), bg="#C6A5A5", fg="white")
+    liste.place(relx=0.4, rely=0.2, anchor=CENTER)
+    lab = Text(top, font=("Arial", 12), bg="#C6A5A5", fg="white", relief=FLAT)
 
     def mettre_a_jour():
         remplir_table_infos()
@@ -52,15 +51,12 @@ def apparaitre_fich_spec():
         a = liste.get()
         lab.delete(1.0, END)
         lab.insert(1.0, fichier_en_forme(a))
-        lab.pack()
-
-        """lab.config(text=fichier_en_forme(a))"""
+        lab.place(relx=0.5, rely=0.7, anchor=CENTER)
 
     button = Button(top, text="Afficher les dossiers", command=mettre_a_jour)
-    button.pack()
-    titre.pack(expand=YES)
+    button.place(relx=0.6, rely=0.2, anchor=CENTER)
+    titre.place(relx=0.5, rely=0.1, anchor=CENTER)
     lab.config(highlightbackground="#C6A5A5")
-    lab.pack()
 
 
 def apparaitre_compa():
@@ -70,11 +66,11 @@ def apparaitre_compa():
     top.minsize(720, 480)
     top.config(background="#C6A5A5")
     lab = Label(top, text="Evolution fichiers de téléchargements", font=("Arial", 24), bg="#C6A5A5", fg="white")
-    lab.pack()
+    lab.place(relx=0.5, rely=0.1, anchor=CENTER)
     explication = Label(top, text="Veuillez sélectionner une date, vous obtiendrez ensuite le nombre\n "
                                   "de nouveaux téléchargements vous avez effectué depuis ce jour.", font=("Arial", 15),
                         bg="#C6A5A5", fg="white")
-    explication.pack()
+    explication.place(relx=0.5, rely=0.2, anchor=CENTER)
     liste = ttk.Combobox(top, values=recuperer_date())
     result = StringVar()
     result.set("C'est ici que s'affichera le résultat")
@@ -86,10 +82,10 @@ def apparaitre_compa():
         date = liste.get()
         result.set(result_comparaison(date))
 
-    liste.pack()
+    liste.place(relx=0.4, rely=0.3, anchor=CENTER)
     validation = Button(top, text="Valider Date Max", command=show)
-    validation.pack()
-    lab.pack()
+    validation.place(relx=0.6, rely=0.3, anchor=CENTER)
+    lab.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 
 def apparaitre_ouvrir():
@@ -99,32 +95,29 @@ def apparaitre_ouvrir():
     top.minsize(720, 480)
     top.config(background="#C6A5A5")
     lab = Label(top, text="Lancement fichier", font=("Arial", 24), bg="#C6A5A5", fg="white")
-    lab.pack()
+    lab.place(relx=0.5, rely=0.1, anchor=CENTER)
     explication = Label(top, text="Veuillez commencer par sélectionner un type de fichier\n"
                                   "Ensuite veuillez sélectionner un fichier, exécutable ou autre que vous auriez "
                                   "sélectionné", font=("Arial", 15),
                         bg="#C6A5A5", fg="white")
-    explication.pack()
+    explication.place(relx=0.5, rely=0.2, anchor=CENTER)
     liste = ttk.Combobox(top, values=recuperer_type())
-    liste.pack()
+    liste.place(relx=0.4, rely=0.4, anchor=CENTER)
     confirmation_txt = StringVar()
     confirmation = Label(top, textvariable=confirmation_txt, font=("Arial", 12), bg="#C6A5A5", fg="white")
+    confirmation.place(relx=0.6, rely=0.4, anchor=CENTER)
 
     def choix_fichier():
         type = liste.get()
         liste_fichiers = ttk.Combobox(top, values=demander_type(type))
-        liste_fichiers.pack()
+        liste_fichiers.place(relx=0.4, rely=0.55, anchor=CENTER)
 
         def lancer_recherche():
             fichier = liste_fichiers.get()
             ouverture_appli(fichier)
             confirmation_txt.set("Le fichier {} s'est ouvert dans Google Chrome".format(fichier))
         button_fichier = Button(top, text="Valider Fichier", command=lancer_recherche)
-        button_fichier.pack()
+        button_fichier.place(relx=0.6, rely=0.55, anchor=CENTER)
 
     validation_type = Button(top, text="Valider Type", command=choix_fichier)
-    validation_type.pack()
-    confirmation.pack()
-
-
-commencer()
+    validation_type.place(relx=0.6, rely=0.4, anchor=CENTER)
