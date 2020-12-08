@@ -2,6 +2,7 @@ import os
 import shutil
 from random import *
 from libs.extensions import *
+import subprocess
 import hashlib
 
 dicti = {}
@@ -60,12 +61,14 @@ def deplacer_fichiers():
         if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
             element = os.path.splitext(i)
-            """hash_element = hashlib.md5(i.encode("utf-8")).hexdigest()
+            """hash_element = hashlib.md5((chemin_repertoire + "\\" + i).encode("utf-8")).hexdigest()
             hash_elements_dossier = []
             for j in os.listdir(chemin_repertoire + "\\" + element[1][1:]):
-                hash_elements_dossier.append(hashlib.md5(j.encode("utf-8")).hexdigest())
-                
-            if hash_element in hash_elements_dossier:"""
+                hash_elements_dossier.append(j)
+            for j in range(len(hash_elements_dossier)):
+                hash_elements_dossier[j] = hashlib.md5(hash_elements_dossier[j].encode("utf-8")).hexdigest()
+            if hash_element in hash_elements_dossier:
+                print("Ok")"""
             nombre = str(randint(0, 1_000_000))
             os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
                        chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
@@ -109,6 +112,12 @@ def ajouter_description(demande):
                                                                                    [demande.upper()])
     else:
         return "Désolé, nous ne connaissons pas ce type d'extension"
+
+
+def ouverture_appli(fichier):
+    fichier = os.path.splitext(fichier)
+    subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                      chemin_repertoire + "\\" + fichier[1][1:] + "\\" + str(fichier[0] + fichier[1])))
 
 
 def fonct_console():

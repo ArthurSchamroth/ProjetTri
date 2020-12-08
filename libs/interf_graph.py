@@ -23,10 +23,12 @@ def commencer():
     list_button = Button(frame, text="Lister Fichiers Spécifiques", bg="white", fg="#C6A5A5",
                          command=apparaitre_fich_spec)
 
-    comparaison_button = Button(frame, text="Voir évolution", bg="white", fg="#C6A5A5", command=apparaitre_compa)
+    comparaison_button = Button(frame, text="Voir Evolution", bg="white", fg="#C6A5A5", command=apparaitre_compa)
+    ouvrir_appli_button = Button(frame, text="Ouvrir Appli", bg="white", fg="#C6A5A5", command=apparaitre_ouvrir)
 
     list_button.pack()
     comparaison_button.pack()
+    ouvrir_appli_button.pack()
     frame.pack(expand=YES)
     window.mainloop()
 
@@ -88,3 +90,41 @@ def apparaitre_compa():
     validation = Button(top, text="Valider Date Max", command=show)
     validation.pack()
     lab.pack()
+
+
+def apparaitre_ouvrir():
+    top = Toplevel(window)
+    top.title("Trouve Tout")
+    top.geometry("720x480")
+    top.minsize(720, 480)
+    top.config(background="#C6A5A5")
+    lab = Label(top, text="Lancement fichier", font=("Arial", 24), bg="#C6A5A5", fg="white")
+    lab.pack()
+    explication = Label(top, text="Veuillez commencer par sélectionner un type de fichier\n"
+                                  "Ensuite veuillez sélectionner un fichier, exécutable ou autre que vous auriez "
+                                  "sélectionné", font=("Arial", 15),
+                        bg="#C6A5A5", fg="white")
+    explication.pack()
+    liste = ttk.Combobox(top, values=recuperer_type())
+    liste.pack()
+    confirmation_txt = StringVar()
+    confirmation = Label(top, textvariable=confirmation_txt, font=("Arial", 12), bg="#C6A5A5", fg="white")
+
+    def choix_fichier():
+        type = liste.get()
+        liste_fichiers = ttk.Combobox(top, values=demander_type(type))
+        liste_fichiers.pack()
+
+        def lancer_recherche():
+            fichier = liste_fichiers.get()
+            ouverture_appli(fichier)
+            confirmation_txt.set("Le fichier {} s'est ouvert dans Google Chrome".format(fichier))
+        button_fichier = Button(top, text="Valider Fichier", command=lancer_recherche)
+        button_fichier.pack()
+
+    validation_type = Button(top, text="Valider Type", command=choix_fichier)
+    validation_type.pack()
+    confirmation.pack()
+
+
+commencer()

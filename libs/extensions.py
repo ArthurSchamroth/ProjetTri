@@ -79,3 +79,8 @@ dictionnaire_extensions = {
     "EML": "format email.",
     "MSG": "format email."
 }
+
+dictionnaire_extensions_recherchable = {
+    "PDF": True,
+    "TXT": True
+}
