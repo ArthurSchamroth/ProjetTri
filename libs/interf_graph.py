@@ -22,9 +22,11 @@ def commencer():
     list_button = Button(window, text="Lister Fichiers Spécifiques", bg="white", fg="#C6A5A5",
                          command=apparaitre_fich_spec, width=30, pady=5)
 
-    comparaison_button = Button(window, text="Voir Evolution", bg="white", fg="#C6A5A5", command=apparaitre_compa, width=30, pady=5)
+    comparaison_button = Button(window, text="Voir Evolution", bg="white", fg="#C6A5A5", command=apparaitre_compa,
+                                width=30, pady=5)
 
-    ouvrir_appli_button = Button(window, text="Ouvrir Appli", bg="white", fg="#C6A5A5", command=apparaitre_ouvrir, width=30, pady=5)
+    ouvrir_appli_button = Button(window, text="Ouvrir Appli", bg="white", fg="#C6A5A5", command=apparaitre_ouvrir,
+                                 width=30, pady=5)
 
     list_button.place(relx=0.5, rely=0.5, anchor=CENTER)
     comparaison_button.place(relx=0.5, rely=0.6, anchor=CENTER)
