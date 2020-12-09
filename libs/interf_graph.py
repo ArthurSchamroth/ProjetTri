@@ -107,7 +107,7 @@ def apparaitre_ouvrir():
     liste.place(relx=0.4, rely=0.4, anchor=CENTER)
     confirmation_txt = StringVar()
     confirmation = Label(top, textvariable=confirmation_txt, font=("Arial", 12), bg="#C6A5A5", fg="white")
-    confirmation.place(relx=0.6, rely=0.4, anchor=CENTER)
+    confirmation.place(relx=0.6, rely=0.9, anchor=CENTER)
 
     def choix_fichier():
         type = liste.get()

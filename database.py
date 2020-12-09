@@ -53,16 +53,21 @@ def recuperer_date():
 
 
 def comparaison(date):
+    """
+
+    :param date:
+    :return:
+    """
     mycursor.execute('SELECT Max(Total) FROM comparaison WHERE Date LIKE \'%' + date + '%\'')
     return mycursor.fetchone()
 
 
-def result_comparaison(date):
+def result_comparaison(date: str) -> str:
     if date == datetime.datetime.today().strftime("%Y-%m-%d"):
         return "A ce jour, vous possedez {} fichiers dans votre dossier de téléchargements".format(compter())
     else:
         mycursor.execute('SELECT Max(Total) FROM comparaison WHERE Date LIKE Date(Now())')
         total_today = mycursor.fetchone()[0]
         difference = total_today - comparaison(date)[0]
-        return "Depuis le {}, vous avez téléchargé {} nouveaux fichier(s).\n Ainsi vous êtes à {} fichiers dans votre "\
+        return "Depuis le {}, vous avez téléchargé {} nouveaux fichier(s).\n Ainsi vous êtes à {} fichiers dans votre " \
                "dossier de téléchargements".format(date, difference, compter())
