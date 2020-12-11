@@ -82,5 +82,12 @@ dictionnaire_extensions = {
 
 dictionnaire_extensions_recherchable = {
     "PDF": True,
-    "TXT": True
+    "TXT": True,
+    "MKV": True,
+    "C": True,
+    "INI": True,
+    "IPYNB": True,
+    "JPEG": True,
+    "JPG": True,
+    "MP4": True,
 }
