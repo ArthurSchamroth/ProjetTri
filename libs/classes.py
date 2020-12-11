@@ -5,16 +5,23 @@ class Description:
     def __init__(self, typ: str):
         """
 
-        :param typ: str
+        :param typ: str: type dont il faut récupérer la description
         """
-        self.description = dictionnaire_extensions[typ]
+        self.type = typ
+        if typ in dictionnaire_extensions:
+            self.description = dictionnaire_extensions[typ]
+        else:
+            self.description = "Type de fichier invalide !"
 
     def ajouter_description(self) -> str:
         """
 
-        :return: str
+        :return: str: présentation de la description
         """
-        return str(self.description)
+        if self.type in dictionnaire_extensions:
+            return str("Voici vos fichiers {} ainsi qu'une brève description : {}".format(self.type, self.description))
+        else:
+            return str("Le type d'extension {} nous est inconnu !".format(self.type))
 
 
 class Titre:

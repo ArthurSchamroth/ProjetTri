@@ -133,12 +133,7 @@ def fichier_en_forme(demande):
 
 
 def ajouter_description(demande):
-    if demande.upper() in dictionnaire_extensions.keys():
-        return "Voici vos fichiers {}, et voici une brève description : {}".format(demande,
-                                                                                   dictionnaire_extensions
-                                                                                   [demande.upper()])
-    else:
-        return "Désolé, nous ne connaissons pas ce type d'extension"
+    return Description(demande.upper()).ajouter_description()
 
 
 def ouverture_appli(fichier):
