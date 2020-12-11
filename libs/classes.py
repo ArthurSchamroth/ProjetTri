@@ -43,6 +43,7 @@ class RechercheInternet(Titre):
         :param ext: str: extension du titre qui sera peut etre cherchable sur internet
         """
         super().__init__(nom, ext)
+        self.ext = ext
         self.ext_recherchable = False
 
     def recherche(self):
@@ -50,11 +51,11 @@ class RechercheInternet(Titre):
 
         :return: str: string indiquant que ce type d'extension est recherchable ou non
         """
-        if self.ext_recherchable in dictionnaire_extensions_recherchable:
+        if self.ext.upper()[1:] in dictionnaire_extensions_recherchable.keys():
             self.ext_recherchable = True
-            return "Ce fichier est recherchable sur internet !"
+            return "Ce fichier est ouvrable sur Google Chrome !"
         else:
-            return "Ce fichier n'est pas recherchable sur internet !"
+            return "Ce fichier n'est pas ouvrable sur Google Chrome !"
 
 
 class Fichier:

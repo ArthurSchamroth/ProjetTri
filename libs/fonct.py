@@ -142,6 +142,20 @@ def ouverture_appli(fichier):
                       chemin_repertoire + "\\" + fichier[1][1:] + "\\" + str(fichier[0] + fichier[1])))
 
 
+def recherche_internet(fichier: str):
+    fichier = os.path.splitext(fichier)
+    if str(fichier[0] + fichier[1]) in os.listdir(chemin_repertoire + "\\" + fichier[1][1:]):
+        element = RechercheInternet(fichier[0], fichier[1])
+        print(element.recherche())
+        if element.ext_recherchable:
+            choix = input("Voulez l'ouvir dans Google Chrome ? ")
+            if choix == "Oui" or choix == "oui":
+                subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                                  chemin_repertoire + "\\" + fichier[1][1:] + "\\" + str(fichier[0] + fichier[1])))
+    else:
+        return "Ce fichier n'existe pas !"
+
+
 def fonct_console():
     continu = "Oui"
     print("Sélectionner un numéro de propositions :")
@@ -149,6 +163,7 @@ def fonct_console():
           " de téléchargements")
     print("2) 'Demander type' afin de récupérer tous les fichiers d'un certain type")
     print("3) 'Récupérer type' afin de récupérer tous les types de fichiers")
+    print("4) 'Ouvrir fichier' afin d'ouvrir un fichier dans Google Chrome")
 
     while continu == "Oui" or continu == "oui":
         choix = input("Que voulez faire ? ")
@@ -169,6 +184,12 @@ def fonct_console():
             print("Voici tous les types de fichier présents dans votre dossier de téléchargements : ")
             print(recuperer_type())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+        elif choix == "4":
+            type_ext = input("Quel type de fichier voulez-vous ouvrir ? ")
+            print("Voici les fichiers que vous pouvez ouvrir de ce type : {}".format(demander_type(type_ext)))
+            fichier_a_ouvrir = input("Quel fichier voulez vous ouvrir ? ")
+            recherche_internet(str(fichier_a_ouvrir + "." + type_ext))
+            print("Le fichier s'est ouvert dans Google Chrome")
         else:
             print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre "
                   "choix.")
@@ -178,3 +199,5 @@ def fonct_console():
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
+
+print(fonct_console())
