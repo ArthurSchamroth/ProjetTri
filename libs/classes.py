@@ -1,5 +1,3 @@
-import webbrowser
-import os
 from libs.extensions import *
 
 

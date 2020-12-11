@@ -1,3 +1,4 @@
+from libs.classes import *
 import os
 import shutil
 from random import *
@@ -6,6 +7,7 @@ import subprocess
 import hashlib
 
 dicti = {}
+dicti_objets = {}
 dossiers = []
 ext = []
 fichiers_ext = ""
@@ -21,25 +23,35 @@ def recuperer_fichiers():
             for j in os.listdir(chemin_repertoire + "\\" + i):
                 element = os.path.splitext(j)
                 # new type
-                if element[1][1:] not in dicti.keys():
+                if element[1][1:] not in dicti_objets.keys():
                     if element[1] == "":
-                        dicti["Dossier"] = [element[0]]
+                        dicti_objets["Dossier"] = [Fichier(element[0], element[1])]
                     else:
-                        dicti[element[1][1:]] = [element[0]]
+                        dicti_objets[element[1][1:]] = [Fichier(element[0], element[1])]
                 # not new type
                 else:
                     if element[1] == "":
-                        dicti["Dossier"].append(element[0])
+                        dicti_objets["Dossier"].append(Fichier(element[0], element[1]))
                     else:
-                        dicti[element[1][1:]].append(element[0])
+                        dicti_objets[element[1][1:]].append(Fichier(element[0], element[1]))
         # not repertory
         else:
             element = os.path.splitext(i)
-            if element[1][1:] not in dicti.keys():
-                dicti[element[1][1:]] = [element[0]]
+            if element[1][1:] not in dicti_objets.keys():
+                dicti_objets[element[1][1:]] = [Fichier(element[0], element[1])]
             else:
-                dicti[element[1][1:]].append(element[0])
-    return dicti
+                dicti_objets[element[1][1:]].append(Fichier(element[0], element[1]))
+    return dicti_objets
+
+
+def afficher_fichiers_console():
+    result = ""
+    for i in recuperer_fichiers().keys():
+        result += i + " : "
+        for j in recuperer_fichiers()[i]:
+            result += j.nom + ", "
+        result += "\n"
+    return result
 
 
 def grouper_fichiers():
@@ -90,16 +102,18 @@ def deplacer_fichiers():
         else:
             if i == "z":
                 os.remove(chemin_repertoire + "\\z")
-            elif i not in dicti.keys():
+            elif i not in dicti_objets.keys():
                 shutil.move(chemin_repertoire + "\\" + i,
                             chemin_repertoire + "\\Autres")
 
 
 def demander_type(demande):
     grouper_fichiers()
-    if demande in dicti.keys():
+    # Utilisation liste comprehension
+    if demande in dicti_objets.keys():
         resultat = os.listdir(chemin_repertoire + "\\" + demande)
-        return resultat
+        result = [os.path.splitext(x)[0] for x in resultat]
+        return result
     else:
         return "Vous n'avez pas de sous dossier du type {}".format(demande)
 
@@ -145,8 +159,9 @@ def fonct_console():
         choix = input("Que voulez faire ? ")
 
         if choix == "1":
-            print("Voici tous vos fichiers présents dans votre dossier de téléchargements et ses sous-dossiers : ")
-            print(recuperer_fichiers())
+            print("Voici tous vos fichiers présents dans votre dossier de téléchargements et ses sous-dossiers avec "
+                  "leur type d'extension: ")
+            print(afficher_fichiers_console())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
 
         elif choix == "2":
