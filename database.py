@@ -69,5 +69,5 @@ def result_comparaison(date: str) -> str:
         mycursor.execute('SELECT Max(Total) FROM comparaison WHERE Date LIKE Date(Now())')
         total_today = mycursor.fetchone()[0]
         difference = total_today - comparaison(date)[0]
-        return "Depuis le {}, vous avez téléchargé {} nouveaux fichier(s).\n Ainsi vous êtes à {} fichiers dans votre " \
+        return "Depuis le {}, vous avez téléchargé {} nouveaux fichier(s).\n Ainsi vous êtes à {} fichiers dans votre "\
                "dossier de téléchargements".format(date, difference, compter())

@@ -23,13 +23,13 @@ def recuperer_fichiers():
                 # new type
                 if element[1][1:] not in dicti.keys():
                     if element[1] == "":
-                        dicti["dossier"] = [element[0]]
+                        dicti["Dossier"] = [element[0]]
                     else:
                         dicti[element[1][1:]] = [element[0]]
                 # not new type
                 else:
                     if element[1] == "":
-                        dicti["dossier"].append(element[0])
+                        dicti["Dossier"].append(element[0])
                     else:
                         dicti[element[1][1:]].append(element[0])
         # not repertory
@@ -71,7 +71,7 @@ def deplacer_fichiers():
             element = os.path.splitext(i)
             if element[1] == "":
                 shutil.move(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
-                        chemin_repertoire + "\\FichierChelou")
+                            chemin_repertoire + "\\FichierChelou")
             else:
                 nombre = str(randint(0, 1_000_000))
                 os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
@@ -93,7 +93,6 @@ def deplacer_fichiers():
             elif i not in dicti.keys():
                 shutil.move(chemin_repertoire + "\\" + i,
                             chemin_repertoire + "\\Autres")
-
 
 
 def demander_type(demande):
@@ -169,5 +168,3 @@ def fonct_console():
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
-
-
