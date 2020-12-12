@@ -145,14 +145,15 @@ def ouverture_appli(fichier):
 def recherche_internet(fichier: str):
     fichier = os.path.splitext(fichier)
     if str(fichier[0] + fichier[1]) in os.listdir(chemin_repertoire + "\\" + fichier[1][1:]):
-        element = RechercheInternet(fichier[0], fichier[1])
-        print(element.recherche())
+        element = RechercheInternet(fichier[0], fichier[1][1:])
+        element.recherche()
         if element.ext_recherchable:
             choix = input("Voulez l'ouvir dans Google Chrome ? ")
             if choix == "Oui" or choix == "oui":
                 subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
                                   chemin_repertoire + "\\" + fichier[1][1:] + "\\" + str(fichier[0] + fichier[1])))
     else:
+        print("Ce fichier n'existe pas !")
         return "Ce fichier n'existe pas !"
 
 
@@ -184,20 +185,30 @@ def fonct_console():
             print("Voici tous les types de fichier présents dans votre dossier de téléchargements : ")
             print(recuperer_type())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
         elif choix == "4":
             type_ext = input("Quel type de fichier voulez-vous ouvrir ? ")
-            print("Voici les fichiers que vous pouvez ouvrir de ce type : {}".format(demander_type(type_ext)))
-            fichier_a_ouvrir = input("Quel fichier voulez vous ouvrir ? ")
-            recherche_internet(str(fichier_a_ouvrir + "." + type_ext))
-            print("Le fichier s'est ouvert dans Google Chrome")
+            if type_ext in dicti_objets.keys():
+                print("Voici les fichiers de ce type que vous pouvez ouvrir : {}".format(demander_type(type_ext)))
+                fichier_choisi = input("Veuillez sélectionner un fichier à ouvrir : ")
+                fichier_choisi = os.path.splitext(fichier_choisi)
+                fichier = RechercheInternet(fichier_choisi[0], type_ext)
+                print(fichier.recherche())
+                if fichier.ext_recherchable:
+                    recherche_internet(str(fichier.nom + "." + fichier.ext))
+                    print("Le fichier s'est ouvert dans Google Chrome")
+
+            else:
+                print("Vous ne possèdez pas de fichier de ce type !")
+            continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
+
         else:
             print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre "
                   "choix.")
+
 
     else:
         print("Veuillez lancer l'interface graphique")
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
-
-print(fonct_console())

@@ -32,7 +32,10 @@ class Titre:
         :param ext: str: extension de "Titre"
         """
         self.nom = nom
-        self.ext = ext
+        self.ext = ext[1:]
+
+    def get_titre(self):
+        return str(self.nom + self.ext)
 
 
 class RechercheInternet(Titre):
@@ -51,11 +54,11 @@ class RechercheInternet(Titre):
 
         :return: str: string indiquant que ce type d'extension est recherchable ou non
         """
-        if self.ext.upper()[1:] in dictionnaire_extensions_recherchable.keys():
+        if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
             self.ext_recherchable = True
-            return "Ce fichier est ouvrable sur Google Chrome !"
+            return "Ce type de fichier est ouvrable sur Google Chrome !"
         else:
-            return "Ce fichier n'est pas ouvrable sur Google Chrome !"
+            return "Ce type de fichier n'est pas ouvrable sur Google Chrome !"
 
 
 class Fichier:
