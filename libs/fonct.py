@@ -206,9 +206,8 @@ def fonct_console():
             print("Veuillez entrer un choix disponible, attention de ne pas ajouter un espace à la fin de votre "
                   "choix.")
 
-
     else:
-        print("Veuillez lancer l'interface graphique")
+        print("Sortie du mode console...")
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
