@@ -15,3 +15,6 @@ Dans le cadre de ce projet, nous allons créer un programme permettant le tri du
 
 <li> Problème de append dans le dicti de recuper fichier ==> 1 dossier dans dossier au lieu de la liste complete
 <li> Faire le hash (renommer quand hash déjà présent) 
+
+
+<li> Gérer les exceptions dans la fonction qui utilise la classe RechercheInternet
