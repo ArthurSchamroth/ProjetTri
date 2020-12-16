@@ -47,10 +47,14 @@ def recuperer_fichiers():
 def afficher_fichiers_console():
     result = ""
     for i in recuperer_fichiers().keys():
-        result += i + " : "
+        tableau_dossier = []
+        result += str(i) + " : "
         for j in recuperer_fichiers()[i]:
-            result += j.nom + ", "
-        result += "\n"
+            if j.nom not in tableau_dossier:
+                tableau_dossier.append(j.nom)
+        for j in range(len(tableau_dossier) - 1):
+            result += tableau_dossier[j] + ", "
+        result += tableau_dossier[-1] + "\n"
     return result
 
 
@@ -72,6 +76,7 @@ def grouper_fichiers():
                     os.mkdir(chemin_repertoire + "\\" + i)
     except Exception as e:
         print(e)
+
 
 def hash_fichier(filePath):
     fileObj = open(filePath, 'rb')
@@ -109,8 +114,6 @@ def deplacer_fichiers():
                             hash_elements_dossier[j] = hashlib.md5(hash_elements_dossier[j].encode("utf-8")).hexdigest()
                         if hash_element in hash_elements_dossier:
                             print("Ok")"""
-
-
 
         else:
             if i == "z":
@@ -226,4 +229,5 @@ def fonct_console():
 # librairie shh1 et md5 (moins bien (sécurisée))
 
 #print(hash_fichier("C:\\Users\\Firmin\\Downloads\\Jeu-Chevas-20-Octobre-2018(508394).docx"))
-
+print(recuperer_fichiers())
+print(afficher_fichiers_console())
