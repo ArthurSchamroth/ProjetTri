@@ -73,6 +73,16 @@ def grouper_fichiers():
     except Exception as e:
         print(e)
 
+def hash_fichier(filePath):
+    fileObj = open(filePath, 'rb')
+    m = hashlib.md5()
+    while True:
+        d = fileObj.read(8096)
+        if not d:
+            break
+        m.update(d)
+    return m.hexdigest()
+
 
 def deplacer_fichiers():
     recuperer_fichiers()
@@ -90,14 +100,17 @@ def deplacer_fichiers():
                            chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
                 shutil.move(chemin_repertoire + "\\" + element[0] + "(" + nombre + ")." + element[1][1:],
                             chemin_repertoire + "\\" + element[1][1:])
+
             """hash_element = hashlib.md5((chemin_repertoire + "\\" + i).encode("utf-8")).hexdigest()
-            hash_elements_dossier = []
-            for j in os.listdir(chemin_repertoire + "\\" + element[1][1:]):
-                hash_elements_dossier.append(j)
-            for j in range(len(hash_elements_dossier)):
-                hash_elements_dossier[j] = hashlib.md5(hash_elements_dossier[j].encode("utf-8")).hexdigest()
-            if hash_element in hash_elements_dossier:
-                print("Ok")"""
+                        hash_elements_dossier = []
+                        for j in os.listdir(chemin_repertoire + "\\" + element[1][1:]):
+                            hash_elements_dossier.append(j)
+                        for j in range(len(hash_elements_dossier)):
+                            hash_elements_dossier[j] = hashlib.md5(hash_elements_dossier[j].encode("utf-8")).hexdigest()
+                        if hash_element in hash_elements_dossier:
+                            print("Ok")"""
+
+
 
         else:
             if i == "z":
@@ -211,3 +224,6 @@ def fonct_console():
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
+
+#print(hash_fichier("C:\\Users\\Firmin\\Downloads\\Jeu-Chevas-20-Octobre-2018(508394).docx"))
+
