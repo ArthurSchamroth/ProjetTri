@@ -89,31 +89,46 @@ def hash_fichier(filePath):
     return m.hexdigest()
 
 
+def recuperer_hash():
+    tableau_hash = {}
+    for i in recuperer_fichiers().keys():
+        tableau_hash[i] = []
+        if i == "Dossier":
+            pass
+        else:
+            for j in recuperer_fichiers()[i]:
+                nom = j.nom
+                ext = j.ext
+                nom_a_hasher = "b"+nom + ext
+                hash_object = hashlib.sha256(str(nom_a_hasher).encode("utf-8"))
+                tableau_hash[i].append(hash_object.hexdigest())
+    return tableau_hash
+
+
 def deplacer_fichiers():
     recuperer_fichiers()
     grouper_fichiers()
     for i in os.listdir(chemin_repertoire):
         if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
-            element = os.path.splitext(i)
-            if element[1] == "":
-                shutil.move(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
-                            chemin_repertoire + "\\FichierChelou")
+            if i == "FichierChelou":
+                pass
             else:
-                nombre = str(randint(0, 1_000_000))
-                os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
-                           chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
-                shutil.move(chemin_repertoire + "\\" + element[0] + "(" + nombre + ")." + element[1][1:],
-                            chemin_repertoire + "\\" + element[1][1:])
-
-            """hash_element = hashlib.md5((chemin_repertoire + "\\" + i).encode("utf-8")).hexdigest()
-                        hash_elements_dossier = []
-                        for j in os.listdir(chemin_repertoire + "\\" + element[1][1:]):
-                            hash_elements_dossier.append(j)
-                        for j in range(len(hash_elements_dossier)):
-                            hash_elements_dossier[j] = hashlib.md5(hash_elements_dossier[j].encode("utf-8")).hexdigest()
-                        if hash_element in hash_elements_dossier:
-                            print("Ok")"""
+                element = os.path.splitext(i)
+                nom_a_hasher = "b"+i
+                hash_object = hashlib.sha256(str(nom_a_hasher).encode("utf-8"))
+                if str(hash_object.hexdigest()) in recuperer_hash()[element[1][1:]]:
+                    nombre = str(randint(0, 1_000_000))
+                    os.renames(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
+                               chemin_repertoire + "\\" + element[0] + "(" + nombre + ")" + "." + element[1][1:])
+                    shutil.move(chemin_repertoire + "\\" + element[0] + "(" + nombre + ")." + element[1][1:],
+                                chemin_repertoire + "\\" + element[1][1:])
+                elif element[1] == "":
+                    shutil.move(chemin_repertoire + "\\" + element[0] + "." + element[1][1:],
+                                chemin_repertoire + "\\FichierChelou")
+                else:
+                    shutil.move(chemin_repertoire + "\\" + element[0] + element[1],
+                                chemin_repertoire + "\\" + element[1][1:])
 
         else:
             if i == "z":
@@ -227,7 +242,3 @@ def fonct_console():
 
 
 # librairie shh1 et md5 (moins bien (sécurisée))
-
-#print(hash_fichier("C:\\Users\\Firmin\\Downloads\\Jeu-Chevas-20-Octobre-2018(508394).docx"))
-print(recuperer_fichiers())
-print(afficher_fichiers_console())
