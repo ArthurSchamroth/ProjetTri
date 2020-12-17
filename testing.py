@@ -69,6 +69,3 @@ class TestRecuperFichiersConsole(unittest.TestCase):
                                                       "1 Démo Proteus\n"
                                                       "c : main(12246), main\n"
                                                       "csv : moodle(666914), moodle\n")
-
-
-
