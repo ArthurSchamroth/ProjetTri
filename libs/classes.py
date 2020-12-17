@@ -7,11 +7,14 @@ class Description:
 
         :param typ: str: type dont il faut récupérer la description
         """
-        self.type = typ
-        if typ in dictionnaire_extensions:
-            self.description = dictionnaire_extensions[typ]
+        if type(typ) != str:
+            raise TypeError("Paramètre doit être un string")
         else:
-            self.description = "Type de fichier invalide !"
+            self.type = typ
+            if typ in dictionnaire_extensions:
+                self.description = dictionnaire_extensions[typ]
+            else:
+                self.description = "Type de fichier invalide !"
 
     def ajouter_description(self) -> str:
         """
@@ -25,17 +28,24 @@ class Description:
 
 
 class Titre:
-    def __init__(self, nom: str, ext: str):
+    def __init__(self, nom: str, ext=None):
         """
 
         :param nom: str: nom de "Titr"
         :param ext: str: extension de "Titre"
         """
-        self.nom = nom
-        self.ext = ext[1:]
+        if type(nom) != str and type(ext) != str:
+            raise TypeError("Paramètre doit être un string")
+        else:
+            if ext is None:
+                self.nom = nom
+                self.ext = ""
+            else:
+                self.nom = nom
+                self.ext = ext[1:]
 
     def get_titre(self):
-        return str(self.nom + self.ext)
+        return str(self.nom)
 
 
 class RechercheInternet(Titre):
@@ -43,11 +53,14 @@ class RechercheInternet(Titre):
         """
 
         :param nom: str: nom du titre qui sera peut etre cherchable sur internet
-        :param ext: str: extension du titre qui sera peut etre cherchable sur internet
+        :param ext: str: extension du titre qui sera peut etre cherchable sur internet (sans le '.')
         """
-        super().__init__(nom, ext)
-        self.ext = ext
-        self.ext_recherchable = False
+        if type(nom) != str and type(ext) != str:
+            raise TypeError("Paramètre doit être un string")
+        else:
+            super().__init__(nom, ext)
+            self.ext = ext
+            self.ext_recherchable = False
 
     def recherche(self):
         """
@@ -68,8 +81,11 @@ class Fichier:
         :param nom: str: nom du fichier
         :param exte: str: extension du fichier
         """
-        self.nom = nom
-        self.ext = exte
+        if type(nom) != str and type(exte) != str:
+            raise TypeError("Paramètres doivent être des string")
+        else:
+            self.nom = nom
+            self.ext = exte
 
     def demande_type(self) -> str:
         """
@@ -93,5 +109,16 @@ class Dossier:
         :param name: str: nom du dossier
         :param contenu: list: liste des différents du fichier du dossier
         """
-        self.name = name
-        self.contenu = contenu
+        if type(name) != str and type(contenu) != list:
+            raise TypeError("Paramètres doivent être un string et une liste")
+        else:
+            self.name = name
+            self.contenu = contenu
+
+    def ouvrir_dossier(self):
+        result = ""
+        for i in range(len(self.contenu) - 1):
+            result += self.contenu[i] + ", "
+        result += self.contenu[-1]
+        return result
+

@@ -1,0 +1,63 @@
+import unittest
+from libs.classes import *
+
+
+class TestDescription(unittest.TestCase):
+    def test1(self):
+        self.assertIsInstance(Description("PDF"), Description)
+        self.assertEqual(Description("PDF").ajouter_description(), "Voici vos fichiers PDF ainsi qu'une brève "
+                                                                   "description : format Adobe Acrobat. Protégez"
+                                                                   " le style et évitez les modifications.")
+
+    """def test2(self):
+        self.assertRaises(TypeError, Description(1))"""
+
+
+class TestTitre(unittest.TestCase):
+    def test1(self):
+        self.assertIsInstance(Titre("Test", ".pdf"), Titre)
+        self.assertEqual((Titre("Test", ".txt").get_titre()), "Test")
+
+    """def test2(self):
+        self.assertRaises(TypeError, Titre(1, .3))"""
+
+
+class TestRechercheInternet(unittest.TestCase):
+    def test1(self):
+        self.assertIsInstance(RechercheInternet("Test", ".pdf"), RechercheInternet)
+        self.assertEqual(RechercheInternet("Test", ".pdf").recherche(), "Ce type de fichier n'est pas ouvrable sur"
+
+                                                                        " Google Chrome !")
+
+    def test2(self):
+        self.assertIsInstance(RechercheInternet("Test", "pdf"), RechercheInternet)
+        self.assertEqual(RechercheInternet("Test", "pdf").recherche(), "Ce type de fichier est ouvrable sur"
+                                                                       " Google Chrome !")
+
+
+class TestFichier(unittest.TestCase):
+    def test1(self):
+        self.assertIsInstance(Fichier("Test", ".pdf"), Fichier)
+        self.assertEqual(Fichier("Test", ".pdf").demande_type(), "pdf")
+        self.assertEqual(Fichier("Test", ".pdf").fichier_en_forme(), "Test.pdf")
+
+    """def test2(self):
+        self.assertRaises(TypeError, Fichier(1, 1))"""
+
+
+class TestDossier(unittest.TestCase):
+    def test1(self):
+        self.assertIsInstance(Dossier("Test", ["1", "2", "3"]), Dossier)
+        self.assertEqual(Dossier("Test", ["1", "2", "3"]).ouvrir_dossier(), "1, 2, 3")
+
+    def test2(self):
+        self.assertIsInstance(Dossier(Titre("Test").get_titre(), [Fichier("elem1", ".txt").fichier_en_forme(),
+                                                                  Fichier("elem2", ".txt").fichier_en_forme(),
+                                                                  Fichier("elem3", ".txt").fichier_en_forme()
+                                                                  ]), Dossier)
+        self.assertEqual(Dossier(Titre("Test").get_titre(), [Fichier("elem1", ".txt").fichier_en_forme(),
+                                                             Fichier("elem2", ".txt").fichier_en_forme(),
+                                                             Fichier("elem3", ".txt").fichier_en_forme()
+                                                             ]).ouvrir_dossier(), "elem1.txt, elem2.txt, elem3.txt")
+
+
