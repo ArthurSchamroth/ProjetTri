@@ -1,3 +1,4 @@
+from libs.fonct import *
 import unittest
 from libs.classes import *
 
@@ -59,5 +60,15 @@ class TestDossier(unittest.TestCase):
                                                              Fichier("elem2", ".txt").fichier_en_forme(),
                                                              Fichier("elem3", ".txt").fichier_en_forme()
                                                              ]).ouvrir_dossier(), "elem1.txt, elem2.txt, elem3.txt")
+
+
+class TestRecuperFichiersConsole(unittest.TestCase):
+    # Chemin C:\Users\scham\OneDrive - EPHEC asbl\BAC2\Q1\Développement Informatique II Pratique\Projet w Github\dossier_testing1
+    def test_recup_fichiers1(self):
+        self.assertEqual(afficher_fichiers_console(), "mp4 : 1 Astable, 1 Bascule RS à NAND, "
+                                                      "1 Démo Proteus\n"
+                                                      "c : main(12246), main\n"
+                                                      "csv : moodle(666914), moodle\n")
+
 
 

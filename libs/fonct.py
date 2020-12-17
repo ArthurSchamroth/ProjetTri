@@ -13,7 +13,7 @@ ext = []
 fichiers_ext = ""
 
 chemin_repertoire = input("Veuillez entrer le chemin absolu de votre dossier de téléchargements en doublant vos "
-                          "\\ (exemple: D:\\\\Téléchargements) ")
+                              "\\ (exemple: D:\\\\Téléchargements) ")
 
 
 def recuperer_fichiers():
@@ -99,9 +99,13 @@ def recuperer_hash():
             for j in recuperer_fichiers()[i]:
                 nom = j.nom
                 ext = j.ext
-                nom_a_hasher = "b"+nom + ext
+                nom_a_hasher = "b" + nom + ext
                 hash_object = hashlib.sha256(str(nom_a_hasher).encode("utf-8"))
-                tableau_hash[i].append(hash_object.hexdigest())
+                final = hash_object.hexdigest()
+                if final in tableau_hash[i]:
+                    pass
+                else:
+                    tableau_hash[i].append(final)
     return tableau_hash
 
 
@@ -115,7 +119,7 @@ def deplacer_fichiers():
                 pass
             else:
                 element = os.path.splitext(i)
-                nom_a_hasher = "b"+i
+                nom_a_hasher = "b" + i
                 hash_object = hashlib.sha256(str(nom_a_hasher).encode("utf-8"))
                 if str(hash_object.hexdigest()) in recuperer_hash()[element[1][1:]]:
                     nombre = str(randint(0, 1_000_000))
@@ -241,4 +245,4 @@ def fonct_console():
         print("Sortie du mode console...")
 
 
-# librairie shh1 et md5 (moins bien (sécurisée))
+print(recuperer_hash())
