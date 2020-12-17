@@ -243,6 +243,3 @@ def fonct_console():
 
     else:
         print("Sortie du mode console...")
-
-
-print(recuperer_hash())
