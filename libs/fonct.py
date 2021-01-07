@@ -2,7 +2,6 @@ from libs.classes import *
 import os
 import shutil
 from random import *
-from libs.extensions import *
 import subprocess
 import hashlib
 
@@ -13,7 +12,7 @@ ext = []
 fichiers_ext = ""
 
 chemin_repertoire = input("Veuillez entrer le chemin absolu de votre dossier de téléchargements en doublant vos "
-                              "\\ (exemple: D:\\\\Téléchargements) ")
+                          "\\ (exemple: D:\\\\Téléchargements) ")
 
 
 def recuperer_fichiers():
@@ -75,18 +74,8 @@ def grouper_fichiers():
                 elif i != "":
                     os.mkdir(chemin_repertoire + "\\" + i)
     except Exception as e:
+        # ajouter comme
         print(e)
-
-
-def hash_fichier(filePath):
-    fileObj = open(filePath, 'rb')
-    m = hashlib.md5()
-    while True:
-        d = fileObj.read(8096)
-        if not d:
-            break
-        m.update(d)
-    return m.hexdigest()
 
 
 def recuperer_hash():
@@ -172,12 +161,14 @@ def ajouter_description(demande):
 
 
 def ouverture_appli(fichier):
+    #
     fichier = os.path.splitext(fichier)
     subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
                       chemin_repertoire + "\\" + fichier[1][1:] + "\\" + str(fichier[0] + fichier[1])))
 
 
 def recherche_internet(fichier: str):
+    #
     fichier = os.path.splitext(fichier)
     if str(fichier[0] + fichier[1]) in os.listdir(chemin_repertoire + "\\" + fichier[1][1:]):
         element = RechercheInternet(fichier[0], fichier[1][1:])

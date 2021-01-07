@@ -2,6 +2,10 @@ from libs.fonct import *
 import unittest
 from libs.classes import *
 
+"""
+heritage, polymorphisme, surcharge operateur, pre, post, + dans les classes que dans les fonctions
+"""
+
 
 class TestDescription(unittest.TestCase):
     def test1(self):
