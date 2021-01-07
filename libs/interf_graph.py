@@ -52,7 +52,7 @@ def apparaitre_fich_spec():
         remplir_Table_Comparaison()
         a = liste.get()
         lab.delete(1.0, END)
-        lab.insert(1.0, fichier_en_forme(a))
+        lab.insert(1.0, Dossier(a).fichier_en_forme())
         lab.place(relx=0.5, rely=0.7, anchor=CENTER)
 
     button = Button(top, text="Afficher les dossiers", command=mettre_a_jour)

@@ -117,14 +117,3 @@ def recuperer_type():
         if i != "":
             ext.append(i)
     return ext
-
-
-def fichier_en_forme(demande):
-    fichiers_ext = ""
-    for i in Dossier(demande).demander_type():
-        fichiers_ext += i + "\n"
-    return fichiers_ext
-
-
-
-
