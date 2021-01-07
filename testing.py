@@ -1,6 +1,7 @@
 from libs.fonct import *
 import unittest
 from libs.classes import *
+from libs.variables import *
 
 """
 heritage, polymorphisme, surcharge operateur, pre, post, + dans les classes que dans les fonctions

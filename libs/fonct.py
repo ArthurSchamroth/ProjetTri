@@ -3,12 +3,12 @@ import os
 import shutil
 from random import *
 import hashlib
+from libs.variables import *
 
-dicti = {}
-dicti_objets = {}
-dossiers = []
-ext = []
-fichiers_ext = ""
+
+from libs.classes import Dossier
+
+
 
 
 def recuperer_fichiers():
@@ -124,15 +124,8 @@ def deplacer_fichiers():
                             chemin_repertoire + "\\Autres")
 
 
-def demander_type(demande):
-    grouper_fichiers()
-    # Utilisation liste comprehension
-    if demande in dicti_objets.keys():
-        resultat = os.listdir(chemin_repertoire + "\\" + demande)
-        result = [os.path.splitext(x)[0] for x in resultat]
-        return result
-    else:
-        return "Vous n'avez pas de sous dossier du type {}".format(demande)
+
+
 
 
 def recuperer_type():
@@ -142,11 +135,8 @@ def recuperer_type():
     return ext
 
 
-def fichier_en_forme(demande):
-    fichiers_ext = ""
-    for i in demander_type(demande):
-        fichiers_ext += i + "\n"
-    return fichiers_ext
+
+
 
 
 def ajouter_description(demande):

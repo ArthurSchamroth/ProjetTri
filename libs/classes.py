@@ -1,12 +1,11 @@
 from libs.extensions import *
-from winreg import *
+from libs.variables import *
 import os
 import subprocess
 
+
 # Chemin non importable depuis fonct.py
 
-with OpenKey(HKEY_CURRENT_USER, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders') as key:
-    chemin_repertoire = QueryValueEx(key, '{374DE290-123F-4565-9164-39C4925E467B}')[0]
 
 
 class Description:
@@ -86,22 +85,32 @@ class Fichier:
 
 
 class Dossier:
-    def __init__(self, name: str, contenu: list):
+    def __init__(self, name: str):
         """
 
         :param name: str: nom du dossier
         :param contenu: list: liste des différents du fichier du dossier
         """
-        if type(name) != str and type(contenu) != list:
+        if type(name) != str:
             raise TypeError("Paramètres doivent être un string et une liste")
         else:
             self.name = name
-            self.contenu = contenu
 
-    def ouvrir_dossier(self):
-        result = ""
-        for i in range(len(self.contenu) - 1):
-            result += self.contenu[i] + ", "
-        result += self.contenu[-1]
-        return result
+    def demander_type(self):
+        # Utilisation liste comprehension
+        if self.name.upper() in dicti_objets.keys():
+            resultat = os.listdir(chemin_repertoire + "\\" + self.name)
+            result = [os.path.splitext(x)[0] for x in resultat]
+            return result
+        else:
+            return "Vous n'avez pas de sous dossier du type {}".format(self.name)
+
+    def fichier_en_forme(self):
+        fichiers_ext = ""
+        for i in self.demander_type():
+            fichiers_ext += i + "\n"
+        return fichiers_ext
+
+a = Dossier("mp4")
+print(a.fichier_en_forme())
 
