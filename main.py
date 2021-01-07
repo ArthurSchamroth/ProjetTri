@@ -1,4 +1,4 @@
-from libs.fonct import fonct_console
+from libs.lancement_console import *
 from libs.interf_graph import commencer
 
 if __name__ == "__main__":

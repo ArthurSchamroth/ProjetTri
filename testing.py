@@ -24,3 +24,9 @@ class TestDossier(unittest.TestCase):
     def test1(self):
         self.assertIsInstance(Dossier("Test"), Dossier)
 
+
+class FonctionTest(unittest.TestCase):
+    def recup_fichier_test(self):
+        self.assertEqual(recuperer_fichiers(), 
+)
+
