@@ -1,9 +1,12 @@
 from libs.extensions import *
+from winreg import *
 import os
+import subprocess
 
 # Chemin non importable depuis fonct.py
-chemin_repertoire = input("Veuillez entrer le chemin absolu de votre dossier de téléchargements en doublant vos "
-                          "\\ (exemple: D:\\\\Téléchargements) ")
+
+with OpenKey(HKEY_CURRENT_USER, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders') as key:
+    chemin_repertoire = QueryValueEx(key, '{374DE290-123F-4565-9164-39C4925E467B}')[0]
 
 
 class Description:
@@ -60,25 +63,26 @@ class Fichier:
         """
         return str(self.nom + "." + self.ext)
 
+    def ext_is_recherchable(self):
+        if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
+            self.ext_recherchable = True
+        return True
+
     def recherche(self):
         """
 
         :return: str: string indiquant que ce type d'extension est recherchable ou non
         """
-        if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
-            self.ext_recherchable = True
-            print("Ce type de fichier est ouvrable sur Google Chrome !")
-            if self.fichier_en_forme() in os.listdir(chemin_repertoire):
-                choix = input("Voulez-vous ouvrir dans Google Chrome ? ")
-                if choix == "Oui" or choix == "oui":
-                    subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", chemin_repertoire
-                                      + "\\" + self.ext + "\\" + self.fichier_en_forme))
-                    print("Le fichier s'est ouvert dans Google Chrome")
+        if self.ext_is_recherchable():
+            if self.fichier_en_forme() in os.listdir(chemin_repertoire + "\\" + self.ext):
+                subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", chemin_repertoire
+                                  + "\\" + self.ext + "\\" + self.fichier_en_forme()))
+                return "Le fichier s'est ouvert dans Google Chrome"
             else:
-                print("Ce fichier n'existe pas !")
+                return "Ce fichier n'existe pas !"
 
         else:
-            print("Ce type de fichier n'est pas ouvrable sur Google Chrome !")
+            return "Ce type de fichier n'est pas ouvrable sur Google Chrome !"
 
 
 class Dossier:

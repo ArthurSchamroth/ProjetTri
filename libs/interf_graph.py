@@ -117,7 +117,7 @@ def apparaitre_ouvrir():
         def lancer_recherche():
             fichier = liste_fichiers.get()
             fichier_complet = str(fichier + "." + type)
-            ouverture_appli(fichier_complet)
+            Fichier(fichier, type).recherche()
             confirmation_txt.set("Le fichier {} s'est ouvert dans Google Chrome".format(fichier))
         button_fichier = Button(top, text="Valider Fichier", command=lancer_recherche)
         button_fichier.place(relx=0.6, rely=0.55, anchor=CENTER)
