@@ -2,10 +2,7 @@ from libs.extensions import *
 from libs.variables import *
 import os
 import subprocess
-
-
-# Chemin non importable depuis fonct.py
-
+import hashlib
 
 
 class Description:
@@ -18,8 +15,8 @@ class Description:
             raise TypeError("Paramètre doit être un string")
         else:
             self.type = typ
-            if typ in dictionnaire_extensions:
-                self.description = dictionnaire_extensions[typ]
+            if typ.upper() in dictionnaire_extensions:
+                self.description = dictionnaire_extensions[typ.upper()]
             else:
                 self.description = "Type de fichier invalide !"
 
@@ -28,7 +25,7 @@ class Description:
 
         :return: str: présentation de la description
         """
-        if self.type in dictionnaire_extensions:
+        if self.type.upper() in dictionnaire_extensions:
             return str("Voici vos fichiers {} ainsi qu'une brève description : {}".format(self.type, self.description))
         else:
             return str("Le type d'extension {} nous est inconnu !".format(self.type))
@@ -62,12 +59,16 @@ class Fichier:
         """
         return str(self.nom + "." + self.ext)
 
-    def ext_is_recherchable(self):
+    def ext_is_recherchable(self) -> bool:
+        """
+
+        :return: bool: True si ce type de fichier est recherchable
+        """
         if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
             self.ext_recherchable = True
         return True
 
-    def recherche(self):
+    def recherche(self) -> str:
         """
 
         :return: str: string indiquant que ce type d'extension est recherchable ou non
@@ -83,34 +84,38 @@ class Fichier:
         else:
             return "Ce type de fichier n'est pas ouvrable sur Google Chrome !"
 
+    def hash_fichier(self) -> str:
+        """
+
+        :return: str: hash du fichier
+        """
+        hashage = "b" + self.nom + self.ext
+        hash_object = hashlib.sha256(str(hashage).encode("utf-8"))
+        return hash_object.hexdigest()
+
 
 class Dossier:
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         """
 
         :param name: str: nom du dossier
-        :param contenu: list: liste des différents du fichier du dossier
         """
         if type(name) != str:
             raise TypeError("Paramètres doivent être un string et une liste")
         else:
             self.name = name
 
-    def demander_type(self):
+    def demander_type(self) -> str or list:
         # Utilisation liste comprehension
-        if self.name.upper() in dicti_objets.keys():
+        if self.name in dicti_objets.keys():
             resultat = os.listdir(chemin_repertoire + "\\" + self.name)
             result = [os.path.splitext(x)[0] for x in resultat]
             return result
         else:
             return "Vous n'avez pas de sous dossier du type {}".format(self.name)
 
-    def fichier_en_forme(self):
+    def fichier_en_forme(self) -> str:
         fichiers_ext = ""
         for i in self.demander_type():
             fichiers_ext += i + "\n"
         return fichiers_ext
-
-a = Dossier("mp4")
-print(a.fichier_en_forme())
-

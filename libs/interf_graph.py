@@ -111,7 +111,7 @@ def apparaitre_ouvrir():
 
     def choix_fichier():
         type = liste.get()
-        liste_fichiers = ttk.Combobox(top, values=demander_type(type))
+        liste_fichiers = ttk.Combobox(top, values=Dossier(type).demander_type())
         liste_fichiers.place(relx=0.4, rely=0.55, anchor=CENTER)
 
         def lancer_recherche():

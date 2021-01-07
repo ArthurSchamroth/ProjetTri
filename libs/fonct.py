@@ -4,12 +4,6 @@ import shutil
 from random import *
 import hashlib
 
-dicti = {}
-dicti_objets = {}
-dossiers = []
-ext = []
-fichiers_ext = ""
-
 
 def recuperer_fichiers():
     for i in os.listdir(chemin_repertoire):
@@ -69,8 +63,7 @@ def grouper_fichiers():
                 elif i != "":
                     os.mkdir(chemin_repertoire + "\\" + i)
     except Exception as e:
-        # ajouter comme
-        print(e)
+        raise e
 
 
 def recuperer_hash():
@@ -81,15 +74,10 @@ def recuperer_hash():
             pass
         else:
             for j in recuperer_fichiers()[i]:
-                nom = j.nom
-                ext = j.ext
-                nom_a_hasher = "b" + nom + ext
-                hash_object = hashlib.sha256(str(nom_a_hasher).encode("utf-8"))
-                final = hash_object.hexdigest()
-                if final in tableau_hash[i]:
+                if Fichier(j.nom, j.ext).hash_fichier() in tableau_hash[i]:
                     pass
                 else:
-                    tableau_hash[i].append(final)
+                    tableau_hash[i].append(Fichier(j.nom, j.ext).hash_fichier())
     return tableau_hash
 
 
@@ -124,17 +112,6 @@ def deplacer_fichiers():
                             chemin_repertoire + "\\Autres")
 
 
-def demander_type(demande):
-    grouper_fichiers()
-    # Utilisation liste comprehension
-    if demande in dicti_objets.keys():
-        resultat = os.listdir(chemin_repertoire + "\\" + demande)
-        result = [os.path.splitext(x)[0] for x in resultat]
-        return result
-    else:
-        return "Vous n'avez pas de sous dossier du type {}".format(demande)
-
-
 def recuperer_type():
     for i in recuperer_fichiers().keys():
         if i != "":
@@ -144,13 +121,9 @@ def recuperer_type():
 
 def fichier_en_forme(demande):
     fichiers_ext = ""
-    for i in demander_type(demande):
+    for i in Dossier(demande).demander_type():
         fichiers_ext += i + "\n"
     return fichiers_ext
-
-
-def ajouter_description(demande):
-    return Description(demande.upper()).ajouter_description()
 
 
 def fonct_console():
@@ -177,7 +150,7 @@ def fonct_console():
         elif choix == "2":
             type_ext = input("Quel type de fichier voulez-vous récupérer ? ")
             print(Description(type_ext).ajouter_description())
-            print(demander_type(type_ext))
+            print(Dossier(type_ext).demander_type())
             continu = input("Voulez-vous continuer à travailler en console ? (Oui/Non) ")
 
         elif choix == "3":
@@ -189,7 +162,8 @@ def fonct_console():
             type_ext = input("Quel type de fichier voulez-vous ouvrir ? ")
             if type_ext in dicti_objets.keys():
                 if type_ext.upper() in dictionnaire_extensions_recherchable.keys():
-                    print("Voici les fichiers de ce type que vous pouvez ouvrir : {}".format(demander_type(type_ext)))
+                    print("Voici les fichiers de ce type que vous pouvez ouvrir : {}".
+                          format(Dossier(type_ext).demander_type()))
                     fichier_choisi = input("Veuillez sélectionner un fichier à ouvrir : ")
                     fichier_choisi = os.path.splitext(fichier_choisi)
                     fichier = Fichier(fichier_choisi[0], type_ext)
@@ -213,3 +187,4 @@ def fonct_console():
 
     else:
         print("Sortie du mode console...")
+
