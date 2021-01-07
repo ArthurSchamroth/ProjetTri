@@ -54,7 +54,6 @@ def afficher_fichiers_console():
 
 
 def grouper_fichiers():
-    recuperer_fichiers()
     try:
         for i in dicti.keys():
             if os.path.isdir(chemin_repertoire + "\\" + i):
@@ -95,8 +94,6 @@ def recuperer_hash():
 
 
 def deplacer_fichiers():
-    recuperer_fichiers()
-    grouper_fichiers()
     for i in os.listdir(chemin_repertoire):
         if not os.path.isdir(chemin_repertoire + "\\" + i):
             # if element is already in the correct file ==> rename this element with a number between 0 and 1 000 000.
@@ -157,6 +154,8 @@ def ajouter_description(demande):
 
 
 def fonct_console():
+    grouper_fichiers()
+    deplacer_fichiers()
     continu = "Oui"
     print("Sélectionner un numéro de propositions :")
     print("1) 'Récupérer fichiers' afin de récupérer tous les fichiers présents dans votre dossier"
