@@ -50,7 +50,7 @@ class Fichier:
 
         :return: str: extension du fichier
         """
-        return str(self.ext[1:])
+        return str(self.ext)
 
     def fichier_en_forme(self) -> str:
         """
