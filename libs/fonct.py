@@ -125,7 +125,6 @@ def deplacer_fichiers():
 
 
 def demander_type(demande):
-    grouper_fichiers()
     # Utilisation liste comprehension
     if demande in dicti_objets.keys():
         resultat = os.listdir(chemin_repertoire + "\\" + demande)
