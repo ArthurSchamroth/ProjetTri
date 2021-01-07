@@ -1,4 +1,9 @@
 from libs.extensions import *
+import os
+
+# Chemin non importable depuis fonct.py
+chemin_repertoire = input("Veuillez entrer le chemin absolu de votre dossier de téléchargements en doublant vos "
+                          "\\ (exemple: D:\\\\Téléchargements) ")
 
 
 class Description:
@@ -27,53 +32,6 @@ class Description:
             return str("Le type d'extension {} nous est inconnu !".format(self.type))
 
 
-class Titre:
-    def __init__(self, nom: str, ext=None):
-        """
-
-        :param nom: str: nom de "Titr"
-        :param ext: str: extension de "Titre"
-        """
-        if type(nom) != str and type(ext) != str:
-            raise TypeError("Paramètre doit être un string")
-        else:
-            if ext is None:
-                self.nom = nom
-                self.ext = ""
-            else:
-                self.nom = nom
-                self.ext = ext[1:]
-
-    def get_titre(self):
-        return str(self.nom)
-
-
-class RechercheInternet(Titre):
-    def __init__(self, nom: str, ext: str):
-        """
-
-        :param nom: str: nom du titre qui sera peut etre cherchable sur internet
-        :param ext: str: extension du titre qui sera peut etre cherchable sur internet (sans le '.')
-        """
-        if type(nom) != str and type(ext) != str:
-            raise TypeError("Paramètre doit être un string")
-        else:
-            super().__init__(nom, ext)
-            self.ext = ext
-            self.ext_recherchable = False
-
-    def recherche(self):
-        """
-
-        :return: str: string indiquant que ce type d'extension est recherchable ou non
-        """
-        if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
-            self.ext_recherchable = True
-            return "Ce type de fichier est ouvrable sur Google Chrome !"
-        else:
-            return "Ce type de fichier n'est pas ouvrable sur Google Chrome !"
-
-
 class Fichier:
     def __init__(self, nom: str, exte: str):
         """
@@ -86,6 +44,7 @@ class Fichier:
         else:
             self.nom = nom
             self.ext = exte
+            self.ext_recherchable = False
 
     def demande_type(self) -> str:
         """
@@ -99,7 +58,27 @@ class Fichier:
 
         :return: str: nom du fichier avec son extension
         """
-        return str(self.nom + self.ext)
+        return str(self.nom + "." + self.ext)
+
+    def recherche(self):
+        """
+
+        :return: str: string indiquant que ce type d'extension est recherchable ou non
+        """
+        if self.ext.upper() in dictionnaire_extensions_recherchable.keys():
+            self.ext_recherchable = True
+            print("Ce type de fichier est ouvrable sur Google Chrome !")
+            if self.fichier_en_forme() in os.listdir(chemin_repertoire):
+                choix = input("Voulez-vous ouvrir dans Google Chrome ? ")
+                if choix == "Oui" or choix == "oui":
+                    subprocess.Popen(("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", chemin_repertoire
+                                      + "\\" + self.ext + "\\" + self.fichier_en_forme))
+                    print("Le fichier s'est ouvert dans Google Chrome")
+            else:
+                print("Ce fichier n'existe pas !")
+
+        else:
+            print("Ce type de fichier n'est pas ouvrable sur Google Chrome !")
 
 
 class Dossier:
