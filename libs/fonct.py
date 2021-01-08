@@ -5,7 +5,7 @@ from random import *
 import hashlib
 
 
-def recuperer_fichiers():
+def recuperer_fichiers(chemin_repertoire=chemin_repertoire):
     for i in os.listdir(chemin_repertoire):
         # repertory
         if os.path.isdir(chemin_repertoire + "\\" + i):
@@ -33,12 +33,12 @@ def recuperer_fichiers():
     return dicti_objets
 
 
-def afficher_fichiers_console():
+def afficher_fichiers_console(chemin_repertoire=chemin_repertoire):
     result = ""
-    for i in recuperer_fichiers().keys():
+    for i in recuperer_fichiers(chemin_repertoire).keys():
         tableau_dossier = []
         result += str(i) + " : "
-        for j in recuperer_fichiers()[i]:
+        for j in recuperer_fichiers(chemin_repertoire)[i]:
             if j.nom not in tableau_dossier:
                 tableau_dossier.append(j.nom)
         for j in range(len(tableau_dossier) - 1):
@@ -66,14 +66,14 @@ def grouper_fichiers():
         raise e
 
 
-def recuperer_hash():
+def recuperer_hash(chemin_repertoire=chemin_repertoire):
     tableau_hash = {}
-    for i in recuperer_fichiers().keys():
+    for i in recuperer_fichiers(chemin_repertoire).keys():
         tableau_hash[i] = []
         if i == "Dossier":
             pass
         else:
-            for j in recuperer_fichiers()[i]:
+            for j in recuperer_fichiers(chemin_repertoire)[i]:
                 if Fichier(j.nom, j.ext).hash_fichier() in tableau_hash[i]:
                     pass
                 else:
@@ -112,8 +112,10 @@ def deplacer_fichiers():
                             chemin_repertoire + "\\Autres")
 
 
-def recuperer_type():
-    for i in recuperer_fichiers().keys():
+def recuperer_type(chemin_repertoire=chemin_repertoire):
+    for i in recuperer_fichiers(chemin_repertoire).keys():
         if i != "":
             ext.append(i)
     return ext
+
+

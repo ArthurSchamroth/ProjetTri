@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.ttk as ttk
-from database import *
+#from database import *
 from libs.fonct import *
 from libs.classe_dossier import *
 
