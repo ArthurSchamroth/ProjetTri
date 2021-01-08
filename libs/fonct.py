@@ -1,4 +1,4 @@
-from libs.classes import *
+from libs.classe_fichier import *
 import os
 import shutil
 from random import *

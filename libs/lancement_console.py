@@ -1,4 +1,6 @@
 from libs.fonct import *
+from libs.classe_description import *
+from libs.classe_dossier import *
 
 
 def fonct_console():
