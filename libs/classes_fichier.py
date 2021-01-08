@@ -44,6 +44,7 @@ class Fichier:
             self.nom = nom
             self.ext = exte
             self.ext_recherchable = False
+            self.hash = None
 
     def demande_type(self) -> str:
         """
@@ -91,7 +92,22 @@ class Fichier:
         """
         hashage = "b" + self.nom + self.ext
         hash_object = hashlib.sha256(str(hashage).encode("utf-8"))
+        self.hash = hash_object.hexdigest()
         return hash_object.hexdigest()
+    
+    def __eq__(self, other) -> bool:
+        """
+        PRE:
+            type(other) == Fichier
+        POST:
+            True if self.hash == other.hash
+        RAISES:
+            typeError if type(other) != Fichier
+        """
+        if type(other) != Fichier:
+            raise TypeError
+        else:
+            return self.hash_fichier() == Fichier(other.nom, other.ext).hash_fichier()
 
 
 class Dossier:
